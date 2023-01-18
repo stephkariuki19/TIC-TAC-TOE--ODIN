@@ -17,32 +17,36 @@ e.preventDefault()
 })
 //--------------------------------------------------------------------------------------------->
 //player factory function
-const createPlayer = (marker)=>{//change to be like book example
+const createPlayer = (marker,name)=>{//change to be like book example
     this.marker = marker;
     this.name = name
     const getMarker =()=>{
         return marker;
     };
+
+    const getName =()=>{
+        return name;
+    };
   
-    return {getMarker}
+    return {getMarker,getName}
 }
 //gameboard object
 const gameBoard = (() =>{
     const restartButton =document.querySelector(".restart")
     const newGameBtns =document.querySelectorAll(".new-game")
     let boxes = Array.from(document.getElementsByClassName("square"))
-    let spaces = Array(9).fill(null)
-    const X_TEXT = "X" //will change to be the player markerstored in current player
+    const X_TEXT = "X"//playerX.getMarker() will change to be the player markerstored in current player
     const O_TEXT = "O"
     let current = X_TEXT
     let round = 0
     boxes.forEach(box =>box.addEventListener("click",boxClicked))
-    //boxes.forEach(box =>box.addEventListener("click",boxClicked))
-   const enableButtons = () =>{
+    const enableButtons = () =>{
     boxes.forEach((element)=>(element.disabled=false))
    }
     function boxClicked(e){
         console.log("box clicked")
+       // console.log(playerX.getMarker())
+        //console.log(playerO.getMarker())
         if(current==X_TEXT){
             e.target.innerText = X_TEXT
             current = O_TEXT
@@ -89,8 +93,8 @@ const winnerText = document.querySelector(".winner-text") //shd read actual name
 const popup = document.querySelector(".popup")
 const container = document.querySelector(".container")
 //create players---------->maybe return them?
-//const playerX  = Player("X")
-//const playerO = Player("O")
+const playerX  = createPlayer("X",playerOne.innerText)
+const playerO = createPlayer("O",playerTwo.innerText)
 //let round = 1 //can add isover to test 
 let winningCombo = [
   [0, 1, 2],
@@ -124,7 +128,7 @@ const winFunction = (letter) =>{
     popup.classList.remove("hide")
     container.remove()
 if(letter=="X"){
-    winnerText.innerHTML = "X WINS"
+    winnerText.innerHTML = "X WINS"//-----> change the x /o
 }else{
     winnerText.innerHTML = "O WINS"
 }
@@ -135,5 +139,5 @@ const drawFunction = ()=>{
     container.remove()
     winnerText.innerHTML = "ITS A DRAW"
 }
-return {winChecker,drawFunction}
+return {winChecker,drawFunction,playerO,playerX}
 })()
