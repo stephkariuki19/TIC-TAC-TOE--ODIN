@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rowdies&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./style.css">
+    <title>TIC TAC TOE</title>
+</head>
+<body>
+    <div class="container">
+    <div class="flex">
+        <button class="new-game">NEW GAME</button>
+            <button class="restart">RESTART</button>
+    </div>
+    <div class="form-container hide">
+        <h1>ENTER PLAYER DETAILS</h1>
+        <form >
+            <div>
+                <label for="player-one">Player 1</label>
+                <input type="text" name="player-one" id="player-one" placeholder="enter name">
+            </div>
+
+            <div>
+                <label for="player-two">Player 2</label>
+                <input type="text" name="player-two" id="player-two" placeholder="enter name">
+            </div>
+            </form>
+            <button id="form-btn">SUBMIT</button>
+            
+        </div>
+        <div class="players">
+            <h1 class="player-one">PLAYER 1</h1>
+            <span>VS</span>
+            <h1 class="player-two">PLAYER 2</h1>
+        </div>
+        <div class="board-container">
+            
+            <div class="gameboard">
+                <button class="square"></button>
+                <button class="square"></button>
+                <button class="square"></button>
+                <button class="square"></button>
+                <button class="square"></button>
+                <button class="square"></button>
+                <button class="square"></button>
+                <button class="square"></button>
+                <button class="square"></button>
+                
+                </div>
+        </div>
+        </div>
+        <div class="popup hide">
+            <h2 class="winner-text">X WINS</h2>
+            <button class="new-game">NEW GAME</button>
+        </div>
+    
+</body>
+<script src="./script.js"></script>
+</html>
