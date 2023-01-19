@@ -1,4 +1,4 @@
-//put this code in a factory/function ------------------------------------------------------------->
+//put this code in a factory/function -------------------------------------------------------------> this is feature brancj
 const formContainer = document.querySelector(".form-container")
 const formBtn = document.querySelector("#form-btn")
 const playerOne = document.querySelector(".player-one")
