@@ -3,6 +3,8 @@ const formContainer = document.querySelector(".form-container")
 const formBtn = document.querySelector("#form-btn")
 const playerOne = document.querySelector(".player-one")
 const playerTwo = document.querySelector(".player-two")
+const playerOneName =document.querySelector("#player-one").value
+const playerTwoName=document.querySelector("#player-two").value
 
 window.addEventListener("load", (event) => {
     console.log("hello")
@@ -11,38 +13,97 @@ window.addEventListener("load", (event) => {
 
   formBtn.addEventListener("click",(e)=>{
 e.preventDefault()
+
     playerOne.innerText = document.querySelector("#player-one").value
-    playerTwo.innerText = document.querySelector("#player-two").value   
+    playerTwo.innerText =    document.querySelector("#player-two").value
     formContainer.remove()
 })
 //--------------------------------------------------------------------------------------------->
 //player factory function
-const createPlayer = (marker)=>{//change to be like book example
+const createPlayer = (marker,name)=>{//change to be like book example
     this.marker = marker;
     this.name = name
     const getMarker =()=>{
         return marker;
     };
-  
-    return {getMarker}
+  const getName=()=>{
+    return name
+  }
+    return {getMarker,getName}
 }
+
+const gameController = (()=>{
+    const winnerText = document.querySelector(".winner-text") //shd read actual name
+    const popup = document.querySelector(".popup")
+    const container = document.querySelector(".container")
+    //create players---------->maybe return them?
+    const playerX  = createPlayer("X","steph")//put normal name to see
+    const playerO = createPlayer("O","mimi")
+    console.log(playerO.getName())
+    console.log(playerO.getMarker())
+    //let round = 1 //can add isover to test 
+    let winningCombo = [
+      [0, 1, 2],
+      [0, 3, 6],
+      [2, 5, 8],
+      [6, 7, 8],
+      [3, 4, 5],
+      [1, 4, 7],
+      [0, 4, 8],
+      [2, 4, 6],
+    ]
+    
+    const winChecker = ()=>{ //return winchecker to be called wih each click
+        for (let i of winningCombo){
+            let [element1,element2,element3] = [
+                gameBoard.boxes[i[0]].innerText,
+                gameBoard.boxes[i[1]].innerText,
+                gameBoard.boxes[i[2]].innerText,
+            ]
+            //check if are empty
+            if(element1 !=""&&(element2!="")&&(element3 !="")){
+                if(element1==element2 && element2==element3){
+                    winFunction(element1) //can return element 1 then use it in winfunction under Updatedisplay
+                }
+            }
+    
+        }
+    }
+    const winFunction = (letter) =>{
+        console.log("doing winfunc")
+        popup.classList.remove("hide")
+        container.remove()
+    if(letter=="X"){
+        winnerText.innerHTML = playerX.getName()+" WINS"
+    }else{
+        winnerText.innerHTML = playerO.getName()+"WINS"
+    }
+    }
+    const drawFunction = ()=>{
+        console.log("doing drawfunc")
+        popup.classList.remove("hide")
+        container.remove()
+        winnerText.innerHTML = "ITS A DRAW"
+    }
+    return {winChecker,drawFunction,playerO,playerX}
+    })()
 //gameboard object
 const gameBoard = (() =>{
     const restartButton =document.querySelector(".restart")
     const newGameBtns =document.querySelectorAll(".new-game")
     let boxes = Array.from(document.getElementsByClassName("square"))
-    let spaces = Array(9).fill(null)
-    const X_TEXT = "X" //will change to be the player markerstored in current player
-    const O_TEXT = "O"
+    const X_TEXT = gameController.playerX.getMarker() //will change to be the player markerstored in current player
+    const O_TEXT = gameController.playerO.getMarker()
     let current = X_TEXT
     let round = 0
     boxes.forEach(box =>box.addEventListener("click",boxClicked))
-    //boxes.forEach(box =>box.addEventListener("click",boxClicked))
+   
    const enableButtons = () =>{
     boxes.forEach((element)=>(element.disabled=false))
    }
     function boxClicked(e){
         console.log("box clicked")
+        console.log(gameController.playerO.getName())
         if(current==X_TEXT){
             e.target.innerText = X_TEXT
             current = O_TEXT
@@ -83,57 +144,4 @@ const gameBoard = (() =>{
 return{
     boxes
 }
-})()
-const gameController = (()=>{
-const winnerText = document.querySelector(".winner-text") //shd read actual name
-const popup = document.querySelector(".popup")
-const container = document.querySelector(".container")
-//create players---------->maybe return them?
-//const playerX  = Player("X")
-//const playerO = Player("O")
-//let round = 1 //can add isover to test 
-let winningCombo = [
-  [0, 1, 2],
-  [0, 3, 6],
-  [2, 5, 8],
-  [6, 7, 8],
-  [3, 4, 5],
-  [1, 4, 7],
-  [0, 4, 8],
-  [2, 4, 6],
-]
-
-const winChecker = ()=>{ //return winchecker to be called wih each click
-    for (let i of winningCombo){
-        let [element1,element2,element3] = [
-            gameBoard.boxes[i[0]].innerText,
-            gameBoard.boxes[i[1]].innerText,
-            gameBoard.boxes[i[2]].innerText,
-        ]
-        //check if are empty
-        if(element1 !=""&&(element2!="")&&(element3 !="")){
-            if(element1==element2 && element2==element3){
-                winFunction(element1) //can return element 1 then use it in winfunction under Updatedisplay
-            }
-        }
-
-    }
-}
-const winFunction = (letter) =>{
-    console.log("doing winfunc")
-    popup.classList.remove("hide")
-    container.remove()
-if(letter=="X"){
-    winnerText.innerHTML = "X WINS"
-}else{
-    winnerText.innerHTML = "O WINS"
-}
-}
-const drawFunction = ()=>{
-    console.log("doing drawfunc")
-    popup.classList.remove("hide")
-    container.remove()
-    winnerText.innerHTML = "ITS A DRAW"
-}
-return {winChecker,drawFunction}
 })()
